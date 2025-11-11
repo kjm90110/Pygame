@@ -24,8 +24,8 @@ class Player:
             self.x -= 30
 
     def jump(self):
-        self.isJumping = True 
-        self.velocity = -60
+        self.isJumping 
+        self.velocity = -50
 
     def jump_update(self):
         self.y += self.velocity
@@ -34,8 +34,13 @@ class Player:
             self.y = 400
             self.isJumping = False
 
-    def hunting(self):
-        pass    
+    def hunting(self, scorpion, player_foot, scorpion_back):
+        if player_foot.colliderect(scorpion_back):
+            print('잡았다!')
+            self.velocity = -20
+            self.isJumping = True
+            self.jump_update() 
+            scorpion.death()
 
     def hurt(self, enemy):
         print('공격당함!')
