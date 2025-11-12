@@ -12,7 +12,7 @@ class Scorpion:
         self.isDeath = False
 
     # 달려오는 속도는 랜덤
-    scorpion_speed = random.randint(16, 25)
+    scorpion_speed = random.randint(15, 25)
 
     # 플레이어에게 다가오는 메서드
     def move(self):
