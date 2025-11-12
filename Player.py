@@ -22,37 +22,39 @@ class Player:
 
     def jump(self):
         self.isJumping = True
-        self.velocity = -50
+        self.velocity = -50 # 가속도
             
 
     def jump_update(self):
-        self.y += self.velocity
-        self.velocity += 10
-        if self.y >= 400:
-            self.y = 400
-            self.isJumping = False
+        self.y += self.velocity 
+        self.velocity += 10 # 중력 적용(가속도 점점 증가)
+        if self.y >= 400: # 게임 화면상 바닥이거나 더 내려갈 경우
+            self.y = 400 
+            self.isJumping = False # 착지 상태로 전환
 
 
     def hunting(self, scorpion, player_foot, scorpion_back):
-        if player_foot.colliderect(scorpion_back):
-            self.velocity = -40
+        if player_foot.colliderect(scorpion_back): # 캐릭터의 발과 전갈의 등이 맞닿았을 경우
+            # 위로 살짝 점프함
+            self.velocity = -40 
             self.isJumping = True
             self.jump_update() 
+            # 점수 1점 획득
             self.score+=1
-            scorpion.death()
+            scorpion.death() # 전갈은 death 처리
 
     def hurt(self, enemy):
-        if enemy == 'scorpion':
+        if enemy == 'scorpion': # 전갈에 닿을 경우 체력 20 깎임
             self.hp -= 20
             return self.hp
-        elif enemy == 'cactus':
+        elif enemy == 'cactus': # 선인장에 닿을 경우 체력 10 깎임
             self.hp -= 10
             return self.hp
         
     
-    def clear(self, screen, font):
+    def clear(self, screen, font): # 게임 클리어 했을 때 사용할 메서드
         isClear = False
-        if self.score==10:
+        if self.score==10: # score 10점 기준 clear 처리
             isClear = True
             while isClear:
                 overlay = pygame.Surface((1200, 600))  # 화면 크기와 같게
@@ -80,7 +82,7 @@ class Player:
 
     def death_action(self, screen, font):
 
-        # 루프 멈추고 대기
+        # 게임 루프 멈추고 대기
         death = True
         while death:
             # 반투명 검정 배경 생성
