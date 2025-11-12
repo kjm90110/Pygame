@@ -76,9 +76,6 @@ def gameActivate():
         if scorpion.isDeath: # 만약 기존 전갈이 죽으면
             scorpion = Scorpion() # 기존 전갈 객체를 새로운 객체로 변경
 
-    
-
-
         screen.blit(cactus_draw, (cactus.x, cactus.y)) # 화면에 선인장 그리기(이미지, 좌표)
         screen.blit(character_draw, (player.x, player.y)) # 화면에 캐릭터 그리기
         screen.blit(scorpion_draw, (scorpion.x, scorpion.y)) # 화면에 전갈 그리기

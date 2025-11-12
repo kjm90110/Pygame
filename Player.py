@@ -51,9 +51,8 @@ class Player:
         
     
     def clear(self, screen, font):
-        
         isClear = False
-        if self.score==3:
+        if self.score==10:
             isClear = True
             while isClear:
                 overlay = pygame.Surface((1200, 600))  # 화면 크기와 같게
@@ -68,12 +67,16 @@ class Player:
 
                 for event in pygame.event.get():
                     if event.type == pygame.QUIT:
+                        isClear = False
+                        self.score = 0 
                         pygame.quit()
-                        exit()
-                    elif event.key == pygame.K_ESCAPE:
-                        pygame.quit()
-                        exit()
-    
+                        exit() 
+                    elif event.type == pygame.KEYDOWN:
+                        if event.key == pygame.K_ESCAPE:
+                            isClear = False
+                            self.score = 0 
+                            pygame.quit()
+                            exit()   
 
     def death_action(self, screen, font):
 
@@ -97,11 +100,7 @@ class Player:
                     pygame.quit()
                     exit()
                 elif event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_RETURN:   # enter 누르면 재시작
-                        death = False
-                        return 'restart'
-
-                    elif event.key == pygame.K_ESCAPE:
+                    if event.key == pygame.K_ESCAPE:
                         pygame.quit()
                         exit()      
 
