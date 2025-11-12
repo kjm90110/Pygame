@@ -49,9 +49,10 @@ def gameActivate():
 
         clock.tick(30)
 
-        score = font.render('score: ' + str(player.score), True, (0, 0, 0))
+        score = font.render('score: ' + str(player.score)+'/10', True, (0, 0, 0))
         hp = font.render('hp: ' + str(player.hp), True, (0,0,0))
-        # get_pressed()는 모든 키의 눌림 여부를 가지고 있는 dictionary임
+        
+        # get_pressed()는 모든 키의 눌림 여부를 담은 불리언 시퀀스를 반환함
         player.game_start(pygame.key.get_pressed(), screen, font)
 
         # 실제로 게임 화면에 이미지를 그려주는 blit 메서드
@@ -86,22 +87,30 @@ def gameActivate():
 
         # 충돌 처리
         character_rect = pygame.Rect(player.x, player.y, 50, 50)
-        scorpion_rect = pygame.Rect(scorpion.x, scorpion.y, 50, 50)
+        scorpion_rect = pygame.Rect(scorpion.x, scorpion.y, 80, 80)
         cactus_rect = pygame.Rect(cactus.x, cactus.y, 30, 100)
         
         # a_rect.colliderect(b_rect): a_rect 객체가 b_rect 객체와 
         # 충돌 중인지에 대한 boolean 데이터임.
         # 플레이어가 선인장 또는 전갈과 닿을 경우 hp 깎임
-        if character_rect.colliderect(scorpion_rect) and not isConflictScorpion:
+        if (character_rect.colliderect(scorpion_rect) 
+            and not isConflictScorpion):
             hp = player.hurt('scorpion')
             if hp <= 0:
-                player.death_action(screen, font)
+                restart = player.death_action(screen, font)
+                if (restart != None 
+                    and restart=='restart'):
+                    initGame()
             isConflictScorpion = True  # 충돌 상태 시작
 
-        elif character_rect.colliderect(cactus_rect) and not isConflictCactus:
+        elif (character_rect.colliderect(cactus_rect) 
+              and not isConflictCactus):
             hp = player.hurt('cactus')
             if hp <= 0:
-                player.death_action(screen, font)
+                restart = player.death_action(screen, font)
+                if (restart != None 
+                    and restart=='restart'):
+                    initGame()
             isConflictCactus = True 
 
         elif not character_rect.colliderect(scorpion_rect):
@@ -120,7 +129,8 @@ def gameActivate():
 
         player.hunting(scorpion, player_foot, scorpion_back)
 
-        player.clear(screen, font) 
+        if player.clear(screen, font) != None and player.clear(screen, font) == 'restart':
+            initGame()
 
         pygame.display.update() 
 

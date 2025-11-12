@@ -69,16 +69,19 @@ class Player:
 
                 for event in pygame.event.get():
                     if event.type == pygame.QUIT:
-                        isClear = False
                         self.score = 0 
                         pygame.quit()
                         exit() 
                     elif event.type == pygame.KEYDOWN:
                         if event.key == pygame.K_ESCAPE:
-                            isClear = False
                             self.score = 0 
                             pygame.quit()
                             exit()   
+                        elif event.key == pygame.K_RETURN:
+                            self.score = 0
+                            return 'restart'  
+
+                        
 
     def death_action(self, screen, font):
 
@@ -104,5 +107,7 @@ class Player:
                 elif event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_ESCAPE:
                         pygame.quit()
-                        exit()      
+                        exit()     
+                    elif event.key == pygame.K_RETURN:
+                        return 'restart'                 
 
