@@ -6,7 +6,7 @@ class Cactus:
         self.x = 1500
         self.y = 320
 
-    # 속도는 랜덤(5~10 사이)
+    # 속도는 랜덤(10~25 사이)
     catus_speed = random.randint(10, 25)
 
     def update(self):

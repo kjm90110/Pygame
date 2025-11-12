@@ -51,9 +51,9 @@ def gameActivate():
 
         score = font.render('score: ' + str(player.score), True, (0, 0, 0))
         hp = font.render('hp: ' + str(player.hp), True, (0,0,0))
-        player.game_start(pygame.key.get_pressed())
+        player.game_start(pygame.key.get_pressed(), screen, font)
 
-        # 실제로 게임 화면에 이미지를 그려주는 blit 메서드드
+        # 실제로 게임 화면에 이미지를 그려주는 blit 메서드
         # 화면에 배경 그리기(이미지, 좌표)
         screen.blit(desert_draw, (0, 0)) 
 
@@ -61,8 +61,10 @@ def gameActivate():
             if event.type == pygame.QUIT: # x 누르면 게임 종료됨
                 running = False
             elif event.type == pygame.KEYDOWN: # 키를 눌렀는데
-                if event.key == pygame.K_SPACE: # 눌러진 키가 스페이스바일 경우우
+                if event.key == pygame.K_SPACE: # 눌러진 키가 스페이스바일 경우
                     player.jump() # player 객체의 jump 인스턴스 메서드
+                elif event.key == pygame.K_ESCAPE:
+                    running = False
 
         # jump 감지되면 프레임마다 update 되도록 하는 jump_update method
         player.jump_update()
@@ -88,7 +90,7 @@ def gameActivate():
 
         
         # a_rect.colliderect(b_rect): a_rect 객체가 b_rect 객체와 
-        # 충돌 중인지에 대한 boolean 데이터.
+        # 충돌 중인지에 대한 boolean 데이터임.
         # 선인장 또는 전갈과 닿을 경우 hp 깎임
         if character_rect.colliderect(scorpion_rect) and not isConflictScorpion:
             hp = player.hurt('scorpion')

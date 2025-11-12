@@ -1,6 +1,5 @@
 import pygame
 from cactus import Cactus
-from scorpion import Scorpion
 
 class Player:
     def __init__(self):
@@ -8,16 +7,23 @@ class Player:
         self.hunt = 0 # 전갈 사냥 횟수
         self.score = 0
         self.isJumping = False
-        # self.jumpCount = 0
         # 캐릭터 기본 위치
         self.x = 200
         self.y = 400
         self.velocity = 0
 
-    def game_start(self, keys):
+    def game_start(self, keys, screen, font):
 
-        cactus = Cactus()
-        cactus.update()
+        if self.score==20:
+            overlay = pygame.Surface((1200, 600))  # 화면 크기와 같게
+            overlay.set_alpha(180)  # 0=투명, 255=불투명
+            overlay.fill((204, 204, 74))
+            screen.blit(overlay, (0, 0))
+
+            text = font.render("Clear!", True, (255, 255, 255))
+            text_rect = text.get_rect(center=(600, 300))
+            screen.blit(text, text_rect) 
+            pygame.display.update()
 
         if keys[pygame.K_RIGHT]:
             self.x += 30 
@@ -34,7 +40,6 @@ class Player:
         self.velocity += 10
         if self.y >= 400:
             self.y = 400
-            # self.jumpCount += 1
             self.isJumping = False
 
 
@@ -48,10 +53,10 @@ class Player:
 
     def hurt(self, enemy):
         if enemy == 'scorpion':
-            self.hp -= 40
+            self.hp -= 30
             return self.hp
         elif enemy == 'cactus':
-            self.hp -= 20
+            self.hp -= 10
             return self.hp
     
 
@@ -60,14 +65,14 @@ class Player:
         # 루프 멈추고 대기
         death = True
         while death:
-            # 1️⃣ 반투명 검정 배경 생성
-            overlay = pygame.Surface((800, 600))  # 화면 크기와 같게
+            # 반투명 검정 배경 생성
+            overlay = pygame.Surface((1200, 600))  # 화면 크기와 같게
             overlay.set_alpha(180)  # 0=투명, 255=불투명
             overlay.fill((0, 0, 0))
             screen.blit(overlay, (0, 0))
-            # 2️⃣ "YOU'RE DEAD" 빨간 글씨 표시
+            # "YOU'RE DEAD" 빨간 글씨 표시
             text = font.render("YOU'RE DEAD", True, (255, 0, 0))
-            text_rect = text.get_rect(center=(400, 300))
+            text_rect = text.get_rect(center=(600, 300))
             screen.blit(text, text_rect) 
             pygame.display.update()
 
@@ -77,8 +82,10 @@ class Player:
                     pygame.quit()
                     exit()
                 elif event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_KP_ENTER:   # R 누르면 재시작
+                    if event.key == pygame.K_RETURN:   # enter 누르면 재시작
                         death = False
+                        return 'restart'
+
                     elif event.key == pygame.K_ESCAPE:
                         pygame.quit()
                         exit()      

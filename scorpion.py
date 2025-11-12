@@ -20,6 +20,6 @@ class Scorpion:
 
     def death(self):
         # 죽는 액션 처리
-        self.y += 40
+        self.y += 50
         self.isDeath = True
         
