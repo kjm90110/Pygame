@@ -51,6 +51,7 @@ def gameActivate():
 
         score = font.render('score: ' + str(player.score), True, (0, 0, 0))
         hp = font.render('hp: ' + str(player.hp), True, (0,0,0))
+        # get_pressed()는 모든 키의 눌림 여부를 가지고 있는 dictionary임
         player.game_start(pygame.key.get_pressed(), screen, font)
 
         # 실제로 게임 화면에 이미지를 그려주는 blit 메서드
@@ -73,7 +74,10 @@ def gameActivate():
         scorpion.move()
         
         if scorpion.isDeath: # 만약 기존 전갈이 죽으면
-            scorpion = Scorpion() # 새로운 객체로 변경
+            scorpion = Scorpion() # 기존 전갈 객체를 새로운 객체로 변경
+
+    
+
 
         screen.blit(cactus_draw, (cactus.x, cactus.y)) # 화면에 선인장 그리기(이미지, 좌표)
         screen.blit(character_draw, (player.x, player.y)) # 화면에 캐릭터 그리기
@@ -87,11 +91,10 @@ def gameActivate():
         character_rect = pygame.Rect(player.x, player.y, 50, 50)
         scorpion_rect = pygame.Rect(scorpion.x, scorpion.y, 50, 50)
         cactus_rect = pygame.Rect(cactus.x, cactus.y, 30, 100)
-
         
         # a_rect.colliderect(b_rect): a_rect 객체가 b_rect 객체와 
         # 충돌 중인지에 대한 boolean 데이터임.
-        # 선인장 또는 전갈과 닿을 경우 hp 깎임
+        # 플레이어가 선인장 또는 전갈과 닿을 경우 hp 깎임
         if character_rect.colliderect(scorpion_rect) and not isConflictScorpion:
             hp = player.hurt('scorpion')
             if hp <= 0:
@@ -119,6 +122,8 @@ def gameActivate():
         scorpion_back = pygame.Rect(scorpion_rect.left, scorpion_rect.top, 100, 10)    
 
         player.hunting(scorpion, player_foot, scorpion_back)
+
+        player.clear(screen, font) 
 
         pygame.display.update() 
 
